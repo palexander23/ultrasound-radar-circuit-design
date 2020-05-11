@@ -13,5 +13,3 @@
 *.txt
 *.gl*
 *.ist
-
-!/img/**/*.pdf
