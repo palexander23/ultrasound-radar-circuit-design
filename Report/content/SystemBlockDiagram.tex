@@ -12,3 +12,25 @@ The 8-Bit digital output of the system is sent to the microcontroller at the bot
         \label{fig:systemBlockDiagram}
     \end{figure}
 \end{center}
+
+\subsection{Operational Principles}
+A periodic signal, in this case a triangle wave, is modulated onto an ultrasonic carrier to produce an FM-modulated signal that is emitted by an ultrasonic transducer.
+This signal propagates through the air at the speed of sound (344 m/s at sea level under normal conditions) and reflects off of any solid objects in its path. 
+This reflection is converted back to an electrical signal by a second transducer.
+
+A PLL with a center frequency equal to that of the FM modulator is used to demodulate the signal. 
+The output of the loop filter will vary with the frequency of the incoming signal, accurately following the triangle wave generated in the Modulation stage. 
+The reconstructed triangle wave is then compared with the wave generated at that instant. 
+The potential difference between the signals is directly proportional to the time it took for the reconstructed signal to travel to and from the object off of which it reflected.
+The distance from the transducers to the reflecting surface can be calculated from this potential difference. 
+
+Below is a description of the function of each subsection and an outline of the function of each block from the practical system in Figure \ref{fig:systemBlockDiagram}. 
+
+\subsection{Modulation}
+The triangle wave is generated in the Triangle Wave Generator.
+It is used as the input to the VCO with a center frequency set at 40KHz. 
+The bandwidth of the FM signal is specified in the tuning sensitivity ($K_{VCO}$) of the VCO.
+As the parameters of the transducers are not known, an optional transmission amplifier has been included.
+On a PCB, a jumper could be used to bypass the transmission amplifier if the VCO proved suitably powerful. 
+The PCB area for the transmission amplifier would only be populated if required. 
+
