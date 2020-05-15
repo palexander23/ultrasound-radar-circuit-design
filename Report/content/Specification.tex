@@ -2,9 +2,10 @@
 \label{sec:specification}
 
 \subsection{System-Wide Specification}
+\label{sec:systemWideSpecification}
 The system should run on $\pm$ 5 V as the robot will likely have a central PSU that provides this configuration.
 As stated in the specification, the maximum measurable distance $d_{max}$ should be 5 m. 
-The distance measurement is converted into an 8-Bit word so the minimum measurable distance $d_{min}$ should be given by Equation \ref{eqn:minimumMeasurableDistance}
+The distance measurement is converted into an 8-Bit word so the minimum measurable distance $d_{min}$ should be given by Equation \eqref{eqn:minimumMeasurableDistance}
 \
 \begin{align}
     \begin{split}
@@ -17,7 +18,7 @@ The distance measurement is converted into an 8-Bit word so the minimum measurab
 
 To get accurate results, the triangle waves measured by the differential amplifiers must have a phase difference of no more than \(\pi\) radians at the maximum measurable value of 5 m.
 To reduce the time spent in the latched state (where the two signals are moving in opposite directions) the phase difference at maximum range will be reduced to \(\frac{2}{3}\pi\). 
-With the speed of sound at sea level under normal conditions $V_{s}$ equal to 344 m/s, the total propagation delay $t_{p}$ imposed on the reflected signal given by Equation \ref{eqn:propagationDelay}.
+With the speed of sound at sea level under normal conditions $V_{s}$ equal to 344 m/s, the total propagation delay $t_{p}$ imposed on the reflected signal given by Equation \eqref{eqn:propagationDelay}.
 This is \(\frac{1}{3}\) of the total triangle wave period $T$. 
 This gives T as 87.3 ms and a frequency F of 11.5 Hz.
 
@@ -30,4 +31,50 @@ This gives T as 87.3 ms and a frequency F of 11.5 Hz.
     \label{eqn:propagationDelay}
 \end{align}
 
-A maximum frequency variation $\Delta f$ of 2 kHz, resulting in a bandwidth of 4 kHz, was chosen as a compromise between simpler filter/amplifier design requiring high bandwidth, and the use of more cost-effective VCO and PLL elements requiring lower bandwidth.  
+A maximum frequency variation $\Delta f$ of 4 kHz, resulting in a bandwidth of 8 kHz, was chosen as a compromise between simpler filter/amplifier design requiring high bandwidth, and the use of more cost-effective VCO and PLL elements requiring lower bandwidth.  
+
+\subsection{Modulation Section Specification}
+
+\subsubsection{Triangle Wave Generator}
+\begin{itemize}
+    \item \textbf{Frequency} - 11.5 Hz $\pm$ 1 Hz to match the system spec in Section \ref{sec:systemWideSpecification}. The theoretical maximum of this value is 17.2 Hz, beyond this value the two triangle waves will be more than $\pi$ radians out of phase when measuring 5 m and the digital output would be in the lathed state 50\% of the time.
+    \item \textbf{Amplitude} - 1 V $\pm$ 0.05 V as a compromise between low power operation and low $K_{VCO}$.
+    \item \textbf{Offset} - 0 V $\pm$ 0.1 V to ensure center frequency at 40 kHz. 
+    The tolerance of the offset and amplitude values are to limit variations in the bandwidth of the FM signal.
+\end{itemize}
+
+\subsubsection{VCO}
+\begin{itemize}
+    \item \textbf{Center Frequency} 40 kHz $\pm$ 200 Hz. Low tolerance offset error on PLL output is minimised
+    \item \textbf{$K_{VCO}$} - KVCO of 4 kHz/V $\pm$ 500 Hz as calculated in Equation \eqref{eqn:KVCO}.
+
+    \begin{equation}
+        \begin{split}
+             K_{VCO} &= \frac{f_{max} - f_{min}}{V_{max} - V_{min}}\\
+                     &= \frac{44 kHz - 36 kHz}{1V - -1V} = 4 kHz/V
+        \end{split}
+        \label{eqn:KVCO}
+    \end{equation}
+\end{itemize}
+
+\subsubsection{Transmission Amplifier}
+\label{sec:specificationTransmissionAmplifier}
+As nothing is known about the transducers to be used on the system, few of the transmission amplifier parameters can be specified.
+However, the following criteria can be specified:
+\begin{itemize}
+    \item \textbf{Gain Selection} - The gain of the amplifier should easy to set using commonly available passive components
+    \item \textbf{Gain Range} - The gain should be selectable between a factor of 2 and a factor of 200.
+    \item \textbf{Bandwidth Stability} - Setting the gain between 2 and 200 should not reduce the gain in the range of 3500 kHz to 45 kHz by more than 3 dB.
+\end{itemize} 
+
+\subsection{Demodulator Specification}
+
+\subsubsection{Band Pass Pre-amp}
+The band pass pre-amp has the same requirements of the transmission amplifier as specified in Section \ref{sec:specificationTransmissionAmplifier} except the \textbf{Gain Range} which should be 20 to 2000 to compensate for attenuation in air.  
+
+\subsubsection{PLL}
+\begin{itemize}
+    \item \textbf{Centre Frequency} - 40 kHz $\pm$ 200 Hz to match that of the VCO.
+    \item \textbf{Triangle Wave Output Offset} - 0V $\pm$ 0.1V to minimise systematic error at the differential amplifier.
+    \item \textbf{Amplitude} 1 V $\pm$ 0.1 V to match that of the triangle wave generator.
+\end{itemize}
