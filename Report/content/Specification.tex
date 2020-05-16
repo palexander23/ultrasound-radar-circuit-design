@@ -77,4 +77,37 @@ The band pass pre-amp has the same requirements of the transmission amplifier as
     \item \textbf{Centre Frequency} - 40 kHz $\pm$ 200 Hz to match that of the VCO.
     \item \textbf{Triangle Wave Output Offset} - 0V $\pm$ 0.1V to minimise systematic error at the differential amplifier.
     \item \textbf{Amplitude} 1 V $\pm$ 0.1 V to match that of the triangle wave generator.
+    If necessary, this should be achieved with an additional amplifier. 
+\end{itemize}
+
+\subsection{Analogue to Digital Conversion}
+
+\subsubsection{Differential Amplifier}
+Parameters for the differential amplifier rely on the parameters of the ADC so they shall be described as such. 
+\begin{itemize}
+    \item \textbf{Differential Gain} - A potential difference of 0.33 V, corresponding to the maximum phase difference between the triangle waves of $\frac{2}{3}\pi$ radians should result in the output of the ADC reaching the upper limit of the ADC input range $V_{ADC} \pm \frac{1}{2^{8}-1}V_{ADC}$.
+    This is so the phase difference caused by the transmitted wave reflecting off an object 5 m away generates the maximum value on the ADC.
+    
+    \item \textbf{Rectified Output} - The polarity of the inputs will periodically switch as the triangle waves change direction.
+    The output of the amplifier should include a full-wave rectifier with a lower limit below $\frac{1}{2^{8}-1}V_{ADC}$ so the minimum distance can still be measured.
+\end{itemize}
+
+\subsubsection{Differentiator}
+\begin{itemize}
+    \item \textbf{Single Supply} - The output of the differentiators are used as the inputs to digital circuits so their output should not go below 0 V.
+
+    \item \textbf{Gain} - The required gain can be calculated by first finding the minimum rate of change of the triangle wave and finding the minimum multiplier that results in an output meeting the TTL logic HIGH/LOW levels.
+    The rate of change is calculated in Equation \ref{eqn:triangleWaveRateOfChange}.
+    \begin{equation}
+        \begin{split}
+            Rate Of Change  &= \frac{Peak-to-Peak Voltage}{\frac{1}{2}*Maximum Period}\\
+                            &= \frac{1 V - -1V}{\frac{1}{2}*95.3 ms}\\
+                            &= 42.0 V/s
+        \end{split}
+        \label{eqn:triangleWaveRateOfChange}
+    \end{equation} 
+
+    \citeauthor{TTLLogicLevels} state in \citetitle{TTLLogicLevels} that the logic levels for TTL inputs are $V_{in} < 0.8 V$ for guaranteed logic LOW and $V_{in} > 2 V$ for logic HIGH.
+    A gain of 1 will suffice.
+
 \end{itemize}
