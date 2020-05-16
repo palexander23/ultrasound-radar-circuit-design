@@ -36,3 +36,40 @@ A cutting of the waveform produced can be found in Figure \ref{fig:triangleWaveG
     \caption{A screencap of the Triangle Wave Generator Subcircuit}
     \label{fig:triangleWaveGeneratorWaveform}
 \end{figure}
+
+\subsubsection{VCO}
+The VCO subcircuit is based on the LTC6990 VCO IC. 
+$K_{VCO}$ and the centre frequency are set using E96 resistors.
+The LTSpice schematic was adapted from a circuit generatd automatically on an online design tool provided by Analog Devices\footnote{\url{http://beta-tools.analog.com/timerblox/LTC6990}}.
+The schematic is shown in Figure \ref{fig:VCOSchematic}.
+
+The testbench varies the control voltage VC and takes frequency measurements at the appropriate times. 
+The testbench is shown in Figure \ref{fig:VCOTestBench}.
+The waveform produced is shown in Figure \ref{fig:VCOTestBenchWaveform}.
+
+The measurements showed that the centre` frequency ($F_{Centre}$) is 39842 Hz and the Bandwidth of the FM Modulated signal is 7905.5 Hz.
+This falls within the tolerances presented in Section \ref{sec:specificationVCO}.
+
+This IC shifts the phase of the signal by $\pi$ radians, the FM signal frequency increases when VC drops and vica versa. 
+The VCO will need to account for this. 
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/VCO/Schematic}
+    \caption{A screencap of the VCO Subcircuit}
+    \label{fig:VCOSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/VCO/TestBenchScreencap}
+    \caption{The testbench fort the VCO Subcircuit}
+    \label{fig:VCOTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/VCO/TestBenchWaveform}
+    \caption{The Waveform produced by the VCO Testbench}
+    \label{fig:VCOTestBenchWaveform}
+\end{figure}
