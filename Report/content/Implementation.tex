@@ -1,2 +1,38 @@
 \section{Implementation}
 \label{sec:implementation}
+
+\subsection{Modulation}
+\subsubsection{Triangle Wave Generator}
+The topology implemented for this subcircuit was found in \citetitle{TriangleWaveTopology}\cite{TriangleWaveTopology}. 
+It uses an integrator to generate a ramp from the output of a non-inverting schmitt trigger. 
+This ramp is fed into the input of the schmitt trigger. When the ramp reaches a schmitt trigger threshold, the polarity of the schmitt trigger output reverses, forcing the integrator to ramp in the opposite direction. 
+High precision, rail-to-rail opamps and E96 resistors ensure the amplitude and offset tolerances were met. 
+
+Figure \ref{fig:triangleWaveGeneratorSchematic} shows the schematic, and Figure \ref{fig:triangleWaveGeneratorTestBench} shows the testbench used to test it. 
+The Spice error log shows the results of the measurement directives.
+The offset is 0.003V and the peak-to-peak voltage is 2.001 V.
+The steady-state frequency is measured as 11.3532 Hz.
+Each of these falls within the tolerances presented in Section \ref{sec:specificationTriangleWaveGenerator}.
+A cutting of the waveform produced can be found in Figure \ref{fig:triangleWaveGeneratorWaveform}. 
+
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TriangleWaveGenerator/schematic}
+    \caption{A screencap of the Triangle Wave Generator Subcircuit}
+    \label{fig:triangleWaveGeneratorSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TriangleWaveGenerator/TestBenchScreencap}
+    \caption{A screencap of the Triangle Wave Generator Subcircuit}
+    \label{fig:triangleWaveGeneratorTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TriangleWaveGenerator/OutputWaveform}
+    \caption{A screencap of the Triangle Wave Generator Subcircuit}
+    \label{fig:triangleWaveGeneratorWaveform}
+\end{figure}
