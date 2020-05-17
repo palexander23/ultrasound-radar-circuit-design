@@ -124,25 +124,56 @@ Figure \ref{fig:preAmpTestBenchOutput} shows the output of the measure directive
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/Schematic}
-    \caption{A screencap of the VCO Subcircuit}
+    \caption{A screencap of the Pre-Amp Subcircuit}
     \label{fig:preAmpSchematic}
 \end{figure}
 
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/TestBenchScreencap}
-    \caption{The testbench fort the VCO Subcircuit}
+    \caption{The testbench fort the Pre-Amp Subcircuit}
     \label{fig:preAmpTestBench}
 \end{figure}
 
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/TestBenchOutput}
-    \caption{The Waveform produced by the VCO Testbench}
+    \caption{The Waveform produced by the Pre-Amp Testbench}
     \label{fig:preAmpTestBenchOutput}
 \end{figure}
 
 \subsubsection{PLL}
 The TI CD4046B has been chosen to implement the PLL as it is cheap and does not require many external components. 
-The ``CD4046B Phase-Locked Loop (Rev. A)'' application note was used to design the circuit. 
+The ``CD4046B Phase-Locked Loop (Rev. A)'' application note was used to design the circuit\footnote{\url{https://www.ti.com/lit/an/scha002a/scha002a.pdf?&ts=1589738760062}}. 
 It was not simulated in LTSpice as TI does not provide a spice model.
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/PLL/PLLReproduction}
+    \caption{The PLL subcircuiit reproduced from the example circuit.}
+    \label{fig:PLLSubcircuit}
+\end{figure}
+
+Figure \ref{fig:PLLSubcircuit} contains a schematic for the PLL subcircuit reproduced from Section 4.1 of the application note. 
+The passive component values have been replaced with those calculated to meet the specification presented in Section \ref{sec:specificationPLL}. 
+The values are derived by following the process described in Section 4.1 of the application note. 
+The VCO center frequency is set by  R1 and C1 using Figure 9(a).
+The bandwidth, given by twice the capture frequency $f_{c}$ in the application note was set to 8 kHz by setting R3 and C2 using the Equation \ref{eqnpllBandwidth}.
+The calculations shown will enable the PLL can enter lock when the FM signal is received.
+
+\begin{equation}
+    \begin{split}
+        2f_{c} &= \frac{1}{R3C2}\sqrt{\frac{2\pi f_{L}}{R3C2}}\\
+        R3C2^{\frac{3}{2}} &= \frac{\sqrt{2\pi f_{L}}}{2f_{c}}
+    \end{split}
+    \label{eqn:pllBandwidth}
+\end{equation}
+
+With $f_{l} = f_{c} = 4 kHz$ and $C2 = 1 uF$:
+
+\begin{equation*}
+    \begin{split}
+        R3C2 &= 0.116s\\
+        R3 &= 165 k\Omega
+    \end{split}
+\end{equation*}
