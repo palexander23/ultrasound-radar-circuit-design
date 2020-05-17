@@ -61,19 +61,30 @@ A maximum frequency variation $\Delta f$ of 4 kHz, resulting in a bandwidth of 8
 
 \subsubsection{Transmission Amplifier}
 \label{sec:specificationTransmissionAmplifier}
-As nothing is known about the transducers to be used on the system, few of the transmission amplifier parameters can be specified.
-However, the following criteria can be specified:
+A MOSFET should be used to amplify the square wave produced by the VCO.
+An engineer should be able to set the fabricated PCB into two configurations:
+\begin{enumerate}
+    \item \textbf{VCO $\rightarrow$ Transducer} - The output of the VCO is fed into the positive terminal of the transducer.
+    The negative terminal of the transducer is set to ground. 
+    \item \textbf{VCO $\rightarrow$ MOSFET Gate} - The output of the VCO is fed into the Gate of an N-channel MOSFET. The positive terminal of the transducer is connected to 5V or an external voltage supply.
+    The negative terminal of the transducer is connected to the drain of the MOSFET.
+\end{enumerate}
+The MOSFET should have the following parameters:
 \begin{itemize}
-    \item \textbf{Gain Selection} - The gain of the amplifier should easy to set using commonly available passive components
-    \item \textbf{Gain Range} - The gain should be selectable between a factor of 2 and a factor of 200.
-    \item \textbf{Bandwidth Stability} - Setting the gain between 2 and 200 should not reduce the gain in the range of 3500 kHz to 45 kHz by more than 3 dB.
-\end{itemize} 
+    \item \textbf{Voltage Rating} - 20 V, higher voltages could prove dangerous for engineers working with the hardware.
+    \item \textbf{Current Rating} - 1A, electroacoustic transducers are capacitive devices so current requirements are relatively low. 
+\end{itemize}
 
 \subsection{Demodulator Specification}
 
 \subsubsection{Band Pass Pre-amp}
-The band pass pre-amp has the same requirements of the transmission amplifier as specified in Section \ref{sec:specificationTransmissionAmplifier} except the \textbf{Gain Range} which should be 20 to 2000 to compensate for attenuation in air.  
-
+As nothing is known about the transducers to be used on the system, few of the amplifier parameters can be specified.
+However, the following criteria can be specified:
+\begin{itemize}
+    \item \textbf{Gain Selection} - The gain of the amplifier should easy to set using commonly available passive components
+    \item \textbf{Gain Range} - The gain should be selectable between a factor of 2 and a factor of 2000.
+    \item \textbf{Bandwidth Stability} - Setting the gain between 2 and 200 should not reduce the gain in the range of 3500 kHz to 45 kHz by more than 3 dB.
+\end{itemize} 
 \subsubsection{PLL}
 \begin{itemize}
     \item \textbf{Centre Frequency} - 40 kHz $\pm$ 200 Hz to match that of the VCO.

@@ -73,3 +73,37 @@ The VCO will need to account for this.
     \caption{The Waveform produced by the VCO Testbench}
     \label{fig:VCOTestBenchWaveform}
 \end{figure}
+
+\subsubsection{Transmission Amplifier}
+Due to the low power requirements of the MOSFET, a SOT-23 package was chosen to conserve space and money. 
+The Infineon IRLML6344\footnote{\url{https://uk.rs-online.com/web/p/mosfets/9134070/}} was used in the simulated version shown in Figure \ref{fig:TransmissionAmpSchematic} as it meets the power requirements discussed in Section \ref{sec:specificationTransmissionAmplifier} but any SOT-23 device could be used.
+
+The testbench contains an Butterworth-Van Dyke equivalent circuit of a Piezo with parameters taken from experimental data presented by \citeauthor{equivalentCircuit} in their \citeyear{equivalentCircuit} paper\cite{equivalentCircuit}.
+
+Figure \ref{fig:TransmissionAmpTestBenchWaveform} shows the mock VCO output super imposed over the current through the resistor R1.
+It shows the constant charge and discharge of the capacitor C1, demonstrating that the MOSFET is able to induce mechanical oscillation on this mock transducer.
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/Schematic}
+    \caption{A screencap of the VCO Subcircuit}
+    \label{fig:TransmissionAmpSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/TestBenchScreencap}
+    \caption{The testbench fort the VCO Subcircuit}
+    \label{fig:TransmissionAmpTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/TestBenchWaveform}
+    \caption{The Waveform produced by the VCO Testbench}
+    \label{fig:TransmissionAmpTestBenchWaveform}
+\end{figure}
+
+\subsection{Demodulation}
+
+\subsubsection{Pre-Amp}
