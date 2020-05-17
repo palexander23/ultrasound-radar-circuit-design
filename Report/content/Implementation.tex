@@ -107,3 +107,38 @@ It shows the constant charge and discharge of the capacitor C1, demonstrating th
 \subsection{Demodulation}
 
 \subsubsection{Pre-Amp}
+The pre-amp was implemented using a non-inverting op-amp amplifier. 
+This was to make setting the gain simple and to minimise costs. 
+A high-speed op-amp chosen to reproduce any of the square wave characteristics that were transmitted by the modulation stage.
+
+Figure \ref{fig:preAmpSchematic} shows the schematic for the preamp.
+The parameters for the resistances are set by the testbench.
+
+Figure \ref{fig:preAmpTestBench} shows the test bench. 
+The gain is stepped across the range given in Section \ref{sec:specificationPreAmp}.
+Parameters passed to the pre-amp block for R1 and R2 are calculated \(R1 = Rbase = 1k\) and \(R2 = Rbase \times gain\).
+The input amplitude is reduced by the same factor that the gain is increased to approximate the gain of the system increasing to compensate for greater attenuation.
+At each step the 3db point is calculated to give an approximation of the system bandwidth from 0 - 3db point. 
+Figure \ref{fig:preAmpTestBenchOutput} shows the output of the measure directive, showing that the bandwidth requirements given in Section \ref{sec:specificationPreAmp} have been met.  
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/Schematic}
+    \caption{A screencap of the VCO Subcircuit}
+    \label{fig:preAmpSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/TestBenchScreencap}
+    \caption{The testbench fort the VCO Subcircuit}
+    \label{fig:preAmpTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Pre-Amp/TestBenchOutput}
+    \caption{The Waveform produced by the VCO Testbench}
+    \label{fig:preAmpTestBenchOutput}
+\end{figure}
+
