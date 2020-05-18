@@ -109,6 +109,7 @@ Parameters for the differential amplifier rely on the parameters of the ADC so t
 \end{itemize}
 
 \subsubsection{Differentiator}
+\label{sec:specificationDifferentiator}
 \begin{itemize}
     \item \textbf{Single Supply} - The output of the differentiators are used as the inputs to digital circuits so their output should not go below 0 V.
 
@@ -124,6 +125,6 @@ Parameters for the differential amplifier rely on the parameters of the ADC so t
     \end{equation} 
 
     \citeauthor{TTLLogicLevels} state in \citetitle{TTLLogicLevels} that the logic levels for TTL inputs are $V_{in} < 0.8 V$ for guaranteed logic LOW and $V_{in} > 2 V$ for logic HIGH.
-    A gain of 1 will suffice.
+    A gain of 0.5 will suffice.
 
 \end{itemize}

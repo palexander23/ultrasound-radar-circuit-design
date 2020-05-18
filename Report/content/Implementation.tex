@@ -3,6 +3,7 @@
 
 \subsection{Modulation}
 \subsubsection{Triangle Wave Generator}
+\label{sec:implementationTriangleWaveGenerator}
 The topology implemented for this subcircuit was found in \citetitle{TriangleWaveTopology}\cite{TriangleWaveTopology}. 
 It uses an integrator to generate a ramp from the output of a non-inverting schmitt trigger. 
 This ramp is fed into the input of the schmitt trigger. When the ramp reaches a schmitt trigger threshold, the polarity of the schmitt trigger output reverses, forcing the integrator to ramp in the opposite direction. 
@@ -177,3 +178,45 @@ With $f_{l} = f_{c} = 4 kHz$ and $C2 = 1 uF$:
         R3 &= 165 k\Omega
     \end{split}
 \end{equation*}
+
+\subsection{Analogue to Digital Conversion}
+
+\subsubsection{Differentiators}
+The topology for the differentiator was taken from \citetitle{DifferentiatorTopology} is shown by \citeauthor{DifferentiatorTopology} in figure 4.69\cite{DifferentiatorTopology}.
+The values for the passive components were copied but this gave a gain of $\frac{1}{1000}$ so C1 was increased to 1 uF to produce the required range. 
+The minimum output value was set to 0 V by adding a diode to the output of the differentiator. 
+Since the differentiator output is a digital signal, the forward voltage of the diode has no impact.
+To allow this diode to operate, a 1 M$\Omega$ resistor was added to the testbench output to simulate the low current drawn by a logic IC. 
+The AD822 IC contains two opamps so both differentiators could be implemented using a single IC.
+
+Figure \ref{fig:differentiatorSchematic} shows the schematic as described by \citeauthor{DifferentiatorTopology}\cite{DifferentiatorTopology}.
+Figure \ref{fig:differentiatorTestBench} shows the test bench used to demonstrate the circuit. 
+The input to the differentiator is driven by the triangle wave generator block as described in Section \ref{sec:implementationTriangleWaveGenerator}.
+Figure \ref{fig:differentiatorTestBenchWaveform} shows the output of the differentiator. 
+
+The differentiator produces a square wave swinging between 0 and 4.2 V.
+The triangle wave is shown as well, demonstrating a clear digital signal is produced, with logic HIGH corresponding to the triangle wave ramping down, and logic LOW corresponding to the triangle wave ramping up. 
+This inversion should be taken into account when implementing the digital circuits.
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Differentiator/Schematic}
+    \caption{A screencap of the Pre-Amp Subcircuit}
+    \label{fig:differentiatorSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Differentiator/TestBench}
+    \caption{A screencap of the Pre-Amp Subcircuit}
+    \label{fig:differentiatorTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/Differentiator/TestBenchWaveform}
+    \caption{A screencap of the Pre-Amp Subcircuit}
+    \label{fig:differentiatorTestBenchWaveform}
+\end{figure}
+
+\subsubsection{Differential Amplifier}
