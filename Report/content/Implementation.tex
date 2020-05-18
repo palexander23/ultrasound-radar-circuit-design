@@ -79,29 +79,29 @@ The VCO will need to account for this.
 Due to the low power requirements of the MOSFET, a SOT-23 package was chosen to conserve space and money. 
 The Infineon IRLML6344\footnote{\url{https://uk.rs-online.com/web/p/mosfets/9134070/}} was used in the simulated version shown in Figure \ref{fig:TransmissionAmpSchematic} as it meets the power requirements discussed in Section \ref{sec:specificationTransmissionAmplifier} but any SOT-23 device could be used.
 
-The testbench contains an Butterworth-Van Dyke equivalent circuit of a Piezo with parameters taken from experimental data presented by \citeauthor{equivalentCircuit} in their \citeyear{equivalentCircuit} paper\cite{equivalentCircuit}.
+The testbench contains an Butterworth-Van Dyke equivalent circuit of a transducer with parameters taken from experimental data presented by \citeauthor{equivalentCircuit} in their \citeyear{equivalentCircuit} paper\cite{equivalentCircuit}.
 
-Figure \ref{fig:TransmissionAmpTestBenchWaveform} shows the mock VCO output super imposed over the current through the resistor R1.
+Figure \ref{fig:TransmissionAmpTestBenchWaveform} shows the mock VCO output superimposed over the current through the resistor R1.
 It shows the constant charge and discharge of the capacitor C1, demonstrating that the MOSFET is able to induce mechanical oscillation on this mock transducer.
 
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/Schematic}
-    \caption{A screencap of the VCO Subcircuit}
+    \caption{A screencap of the Transmission Amplifier Subcircuit}
     \label{fig:TransmissionAmpSchematic}
 \end{figure}
 
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/TestBenchScreencap}
-    \caption{The testbench fort the VCO Subcircuit}
+    \caption{The testbench for the Transmission Amplifier Subcircuit}
     \label{fig:TransmissionAmpTestBench}
 \end{figure}
 
 \begin{figure}[H]
     \centering 
     \includegraphics[width=\textwidth]{../Circuits/Images/TransmissionAmp/TestBenchWaveform}
-    \caption{The Waveform produced by the VCO Testbench}
+    \caption{The Waveform produced by the Transmission Amplifier Testbench}
     \label{fig:TransmissionAmpTestBenchWaveform}
 \end{figure}
 
@@ -110,14 +110,14 @@ It shows the constant charge and discharge of the capacitor C1, demonstrating th
 \subsubsection{Pre-Amp}
 The pre-amp was implemented using a non-inverting op-amp amplifier. 
 This was to make setting the gain simple and to minimise costs. 
-A high-speed op-amp chosen to reproduce any of the square wave characteristics that were transmitted by the modulation stage.
+A high-speed op-amp was chosen to reproduce any of the square wave characteristics that were transmitted by the modulation stage.
 
 Figure \ref{fig:preAmpSchematic} shows the schematic for the preamp.
 The parameters for the resistances are set by the testbench.
 
 Figure \ref{fig:preAmpTestBench} shows the test bench. 
 The gain is stepped across the range given in Section \ref{sec:specificationPreAmp}.
-Parameters passed to the pre-amp block for R1 and R2 are calculated \(R1 = Rbase = 1k\) and \(R2 = Rbase \times gain\).
+Parameters passed to the pre-amp block for R1 and R2 are calculated as \(R1 = Rbase = 1k\Omega\) and \(R2 = Rbase \times gain\).
 The input amplitude is reduced by the same factor that the gain is increased to approximate the gain of the system increasing to compensate for greater attenuation.
 At each step the 3db point is calculated to give an approximation of the system bandwidth from 0 - 3db point. 
 Figure \ref{fig:preAmpTestBenchOutput} shows the output of the measure directive, showing that the bandwidth requirements given in Section \ref{sec:specificationPreAmp} have been met.  
@@ -158,32 +158,32 @@ It was not simulated in LTSpice as TI does not provide a spice model.
 Figure \ref{fig:PLLSubcircuit} contains a schematic for the PLL subcircuit reproduced from Section 4.1 of the application note. 
 The passive component values have been replaced with those calculated to meet the specification presented in Section \ref{sec:specificationPLL}. 
 The values are derived by following the process described in Section 4.1 of the application note. 
-The VCO center frequency is set by  R1 and C1 using Figure 9(a).
-The bandwidth, given by twice the capture frequency $f_{c}$ in the application note was set to 8 kHz by setting R3 and C2 using the Equation \ref{eqnpllBandwidth}.
-The calculations shown will enable the PLL can enter lock when the FM signal is received.
+The VCO center frequency is set using R1 and C1 as derived from Figure 9(a).
+The bandwidth, given by twice the capture frequency $f_{c}$ in the application note, was set to 8 kHz by setting $R_{3}$ and $C_{2}$ using the Equation \ref{eqn:pllBandwidth}.
+The component values selected will enable the PLL to enter lock when the FM signal is received.
 
 \begin{equation}
     \begin{split}
-        2f_{c} &= \frac{1}{R3C2}\sqrt{\frac{2\pi f_{L}}{R3C2}}\\
-        R3C2^{\frac{3}{2}} &= \frac{\sqrt{2\pi f_{L}}}{2f_{c}}
+        2f_{c} &= \frac{1}{R_{3}C_{2}}\sqrt{\frac{2\pi f_{L}}{R_{3}C_{2}}}\\
+        R_{3}C_{2}^{\frac{3}{2}} &= \frac{\sqrt{2\pi f_{L}}}{2f_{c}}
     \end{split}
     \label{eqn:pllBandwidth}
 \end{equation}
 
-With $f_{l} = f_{c} = 4 kHz$ and $C2 = 1 uF$:
+With $f_{l} = f_{c} = \frac{1}{2}BW = 4 kHz$ and $C_{2} = 1 uF$:
 
 \begin{equation*}
     \begin{split}
-        R3C2 &= 0.116s\\
-        R3 &= 165 k\Omega
+        R_{3}C_{2} &= 0.116s\\
+        R_{3} &= 165 k\Omega
     \end{split}
 \end{equation*}
 
 \subsection{Analogue to Digital Conversion}
 
 \subsubsection{Differentiators}
-The topology for the differentiator was taken from \citetitle{DifferentiatorTopology} is shown by \citeauthor{DifferentiatorTopology} in figure 4.69\cite{DifferentiatorTopology}.
-The values for the passive components were copied but this gave a gain of $\frac{1}{1000}$ so C1 was increased to 1 uF to produce the required range. 
+The topology for the differentiator was taken from Figure 4.69 in \citetitle{DifferentiatorTopology}\cite{DifferentiatorTopology}.
+The values for the passive components were copied but this gave a gain of $\frac{1}{1000}$ so C1 was increased to 1 uF to produce the required response. 
 The minimum output value was set to 0 V by adding a diode to the output of the differentiator. 
 Since the differentiator output is a digital signal, the forward voltage of the diode has no impact.
 To allow this diode to operate, a 1 M$\Omega$ resistor was added to the testbench output to simulate the low current drawn by a logic IC. 
@@ -196,7 +196,7 @@ Figure \ref{fig:differentiatorTestBenchWaveform} shows the output of the differe
 
 The differentiator produces a square wave swinging between 0 and 4.2 V.
 The triangle wave is shown as well, demonstrating a clear digital signal is produced, with logic HIGH corresponding to the triangle wave ramping down, and logic LOW corresponding to the triangle wave ramping up. 
-This inversion should be taken into account when implementing the digital circuits.
+Inverting the inputs to an XOR/XNOR gate has no affect on the output signal so this inversion is not an issue. 
 
 \begin{figure}[H]
     \centering 
@@ -226,11 +226,11 @@ The second is the LT6370 instrumentation amplifier for accurately converting the
 The third is a full-wave rectifier so the output signal corresponds to the \textit{magnitude} of the difference between the input signals, not the absolute difference.
 The schematic is shown in Figure \ref{fig:differentialAmpSchematic}
 
-In the event that the PLL output amplitude does not match that of the Triangle Wave Generator the gain of the inverting amplifier can be adjusted so both signals are precisely matched.
+In the event that the PLL output amplitude does not match that of the Triangle Wave Generator, the gain of the inverting amplifier can be adjusted with $R_{1}$ and $R_{2}$ so both signals are precisely matched.
 The topology for the rectifier was reproduced from Figure 4.63 in \citeauthor{rectifierTopology}'s \citetitle{rectifierTopology}\cite{rectifierTopology}.
 The feedback circuits of the op-amps eliminate the voltage drop across the diodes in a passive full-wave rectifier. 
 
-Figure \ref{fig:differentialAmpTestBench} shows the Differential Amplifier test bench. 
+Figure \ref{fig:differentialAmpTestBench} shows the Differential Amplifier testbench. 
 It generates two triangle waves of equal and opposite amplitude. 
 The voltage source simulating the PLL output has an increasing delay imposed on it by the step command. 
 The output of the testbench is shown in Figure \ref{fig:differentialAmpTestBenchWaveform}. 
@@ -272,7 +272,7 @@ Figure \ref{fig:differentialAmpLinearity} shows a correlation coefficient of 0.9
 \subsubsection{Digital Logic}
 The AD7819 should be used as the ADC.
 It provides a parallel interface with with chip select and read data controls. 
-The data sheet can be found here\footnote{\url{https://www.analog.com/media/en/technical-documentation/data-sheets/AD7819.pdf}}.
+The datasheet can be found here\footnote{\url{https://www.analog.com/media/en/technical-documentation/data-sheets/AD7819.pdf}}.
 
 The microcontroller should be interfaced as shown in Figure 4 of the datasheet with the parallel interface interrupted by the 8-bit latch.
 Vref should be tied to 3.3 volts through a voltage divider between 5V and GND. 
@@ -286,5 +286,4 @@ The XNOR gate should be implemented using the NC7SZ57P6X universal logic gate.
 The datasheet can be found here\footnote{\url{https://www.onsemi.com/pub/Collateral/NC7SZ58-D.PDF}}.
 It is a cheap, space-friendly way to produce an XNOR gate.
 It should be wired up as shown in Figure 8 of the data sheet, with connections A and B connected to the differentiator outputs and Y connected to the latch enable pin of the 8-bit latch. 
-
 As with the latch, the characteristics of this device exceed the timing requirements of this circuit.
