@@ -220,3 +220,71 @@ This inversion should be taken into account when implementing the digital circui
 \end{figure}
 
 \subsubsection{Differential Amplifier}
+The differential amplifier is split into three sections.
+The first is a unity-gain inverting amplifier to remove the inversion imposed by the VCO.
+The second is the LT6370 instrumentation amplifier for accurately converting the differential input to a single-ended output.
+The third is a full-wave rectifier so the output signal corresponds to the \textit{magnitude} of the difference between the input signals, not the absolute difference.
+The schematic is shown in Figure \ref{fig:differentialAmpSchematic}
+
+In the event that the PLL output amplitude does not match that of the Triangle Wave Generator the gain of the inverting amplifier can be adjusted so both signals are precisely matched.
+The topology for the rectifier was reproduced from Figure 4.63 in \citeauthor{rectifierTopology}'s \citetitle{rectifierTopology}\cite{rectifierTopology}.
+The feedback circuits of the op-amps eliminate the voltage drop across the diodes in a passive full-wave rectifier. 
+
+Figure \ref{fig:differentialAmpTestBench} shows the Differential Amplifier test bench. 
+It generates two triangle waves of equal and opposite amplitude. 
+The voltage source simulating the PLL output has an increasing delay imposed on it by the step command. 
+The output of the testbench is shown in Figure \ref{fig:differentialAmpTestBenchWaveform}. 
+It can be seen that the maximum output voltage increases with as the delay increases. 
+
+A simulation involving more steps was used to produce the plot in Figure \ref{fig:differentialAmpLinearity}. 
+The output voltage with 0 delay is 35.3 uV.
+The output voltage with the maximum delay of 14.5 ms is 3.31 V.
+Figure \ref{fig:differentialAmpLinearity} shows a correlation coefficient of 0.999999959, meaning the differential amplifier easily meets the specification stated in Section \ref{sec:specificationDifferentialAmp}. 
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/DifferentialAmp/Schematic}
+    \caption{A screencap of the Differential Amplifier Subcircuit}
+    \label{fig:differentialAmpSchematic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/DifferentialAmp/TestBench}
+    \caption{A screencap of the Differential Amplifier Testbench}
+    \label{fig:differentialAmpTestBench}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/DifferentialAmp/TestBenchWaveform}
+    \caption{A screencap of the output produced by the Differential Amplifier Testbench}
+    \label{fig:differentialAmpTestBenchWaveform}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=\textwidth]{../Circuits/Images/DifferentialAmp/linearityPlot}
+    \caption{A plot showing the linearity of the Differential Amplifier}
+    \label{fig:differentialAmpLinearity}
+\end{figure}
+
+\subsubsection{Digital Logic}
+The AD7819 should be used as the ADC.
+It provides a parallel interface with with chip select and read data controls. 
+The data sheet can be found here\footnote{\url{https://www.analog.com/media/en/technical-documentation/data-sheets/AD7819.pdf}}.
+
+The microcontroller should be interfaced as shown in Figure 4 of the datasheet with the parallel interface interrupted by the 8-bit latch.
+Vref should be tied to 3.3 volts through a voltage divider between 5V and GND. 
+To perform a conversion, the microcontroller should follow the timing diagram as described in Figure 15 of the datasheet. 
+
+The SN74HC573AN should be used as the 8-bit latch. 
+The characteristics of this device far exceed the timing requirements of this circuit in terms of switching speed. 
+The latch enable line is active HIGH so an XNOR gate should be used to generate the latch enable signal as specified in Section \ref{sec:systemWideSpecification}.
+
+The XNOR gate should be implemented using the NC7SZ57P6X universal logic gate. 
+The datasheet can be found here\footnote{\url{https://www.onsemi.com/pub/Collateral/NC7SZ58-D.PDF}}.
+It is a cheap, space-friendly way to produce an XNOR gate.
+It should be wired up as shown in Figure 8 of the data sheet, with connections A and B connected to the differentiator outputs and Y connected to the latch enable pin of the 8-bit latch. 
+
+As with the latch, the characteristics of this device exceed the timing requirements of this circuit.
