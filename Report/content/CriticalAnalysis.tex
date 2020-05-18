@@ -1,2 +1,28 @@
 \section{Critical Analysis}
 \label{sec:criticalAnalysis}
+
+It was assumed during the completion of this document that the requirement for a bespoke FMCW radar sensor meant that the robot being produced required high levels of performance and had a budget to match.
+If not, an off-the-shelf pulse-based device such as the HC-S04\footnote{\url{https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf}} would have been used. 
+To this end, the system designed is suitable for a moderate to high-budget, high-performance system.
+Conversely, this system would not be appropriate for a low-budget, low-performance system such as a toy. 
+The components used are high performance and rely on a dual-rail power supply of a kind that would be expensive to implement.  
+
+The component choices themselves work well for the designs in which they are used, but more thought could be put in to optimising for price. 
+Only Spice models shipped with LTSpice were used in the simulations but there may be better, more cost-effective devices not found in the LTSpice device library. 
+The number of different op-amps could also be reduced. 
+Replacing each op-amp in the design with the ADA4000-1 used in the differential amplifier should be investigated as it performed well in the inverting amplifier and the full-wave rectifier.
+
+The lack of knowledge regarding the robot and the ultrasound transducers resulted in some uncertainty with component values.
+The ability to set the gain of the Pre-Amp and the inverter in the differential amplifier resulted in reduced bandwidth of both circuits. 
+The addition of jumpers to configure the use of the transmission amplifier also adds extra complexity to the system. 
+However, it is felt that making the circuit configurable was the right choice for this project. 
+Once the system has been built and tested using the real hardware the component values can be set in stone ready for a high volume production run. 
+If this was a real project, a test circuit for the PLL could be produced and evaluated separately if development time allowed to ensure the implementation of the support circuitry was correct. 
+
+More research could have been made into PLLs with spice models but a compromise was made with the the chosen device. 
+Its low price and simple support circuitry meant that the parameters of the PLL subcircuit would be easy to edit during PCB testing. 
+Similarly, the timing requirements of the digital circuits were lenient enough that time was not spent finding spice models for each device so that simulation could be completed. 
+In a future design, this digital logic could be replaced with a low-cost CPLD to save on PCB space and board revisions. 
+
+Over all, it is felt that the brief has been met but testing with physical hardware should be performed before a mass-production run of the circuit is advised.
+ 
